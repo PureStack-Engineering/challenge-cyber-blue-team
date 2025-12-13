@@ -1,0 +1,26 @@
+name: PureStack Blue Team Audit
+on: [push, pull_request]
+
+jobs:
+  forensic-audit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: "3.10"
+        
+    - name: Run Forensic Analysis
+      run: |
+        # Creamos un pequeño script de test al vuelo para validar su solución
+        echo "from incident_response import LogAnalyzer" > test_audit.py
+        echo "import sys" >> test_audit.py
+        echo "analyzer = LogAnalyzer('data/server_logs.txt')" >> test_audit.py
+        echo "result = analyzer.analyze()" >> test_audit.py
+        echo "print(f'Candidate Result: {result}')" >> test_audit.py
+        echo "assert result['attacker_ip'] == '192.168.1.66', '❌ Failed to identify Attacker IP'" >> test_audit.py
+        echo "assert result['attack_type'] == 'brute_force', '❌ Failed to identify Attack Type'" >> test_audit.py
+        echo "print('✅ THREAT NEUTRALIZED. Analysis Correct.')" >> test_audit.py
+        
+        # Ejecutar el test
+        python test_audit.py
