@@ -29,6 +29,10 @@ Your mission is to write a Python script in `incident_response.py` that parses t
 
 ---
 
+> **Note on Build Status:** You will see a ❌ (**Red Cross**) on the Actions tab initially. This is expected because the logic is not implemented yet. Your goal is to turn it ✅ (**Green**).
+
+---
+
 ### 🚨 CRITICAL: Project Structure
 To ensure our **Automated Auditor** works correctly, please keep this structure intact:
 
