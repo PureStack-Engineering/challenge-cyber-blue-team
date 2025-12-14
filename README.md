@@ -1,4 +1,6 @@
-# 🛡️ PureStack Blue Team Challenge: The Breach
+# 🛡️ PureStack Blue Team Challenge: Digital Forensics & Log Analysis
+
+PureStack.es - Security. Validated by Code.
 
 ### Context
 Welcome to the **PureStack Technical Validation Protocol** for Cybersecurity.
