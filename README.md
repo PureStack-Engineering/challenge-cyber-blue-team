@@ -1,63 +1,67 @@
 # 🛡️ PureStack Blue Team Challenge: Digital Forensics & Log Analysis
 
 **PureStack.es - Security Validation Protocol.**
-> *"Certifications are paper. Code is proof. We audit Scripting, Regex, and Incident Response."*
+> *"Certifications are paper. Code is proof. We audit Scripting, Parsing, and Incident Response."*
 
 ---
 
 ### 📋 Context & Mission
 Welcome to the PureStack Technical Validation Protocol for Cybersecurity.
-We don't ask you to configure a firewall via GUI. We ask you to parse raw evidence and automate threat detection.
+We don't ask you to click buttons in a SIEM. We ask you to parse raw evidence and automate threat detection via code.
 
-**The Scenario:** Our honeypot has been hit. We have a raw log file (`data/server_logs.txt`) containing mixed traffic (SSH, HTTP).
-**The Mission:** Write a Python script (`incident_response.py`) to parse the file and extract actionable intelligence.
+**The Scenario:** Our legacy web server has been compromised. The SIEM is flooded, so we extracted the raw log file (`data/server_logs.txt`). We suspect a specific type of attack against our database.
+**The Mission:** Write a Python script (`incident_response.py`) to parse the logs, detect the attack pattern, and identify the perpetrator.
 
 ### 🚦 Certification Levels (Choose your Difficulty)
 Your seniority is defined by the depth of your analysis and the flexibility of your tool. State your target level in your Pull Request.
 
-#### 🥉 Level 3: Essential / Mid-Level
-* **Focus:** Regex & Basic Parsing.
-* **Requirement:** Identify the attacker.
+#### 🥉 Level 3: Essential / Mid-Level (Passes the Test)
+* **Focus:** String Parsing & Basic Logic.
+* **Requirement:** Neutralize the immediate threat.
 * **Tasks:**
     1.  **Parse:** Read `data/server_logs.txt`.
-    2.  **Detection:** Identify the **IP Address** with the highest frequency of failed login attempts (SSH "Failed password").
-    3.  **Output:** The function `analyze_logs()` must return a dictionary/JSON with the suspect IP and the count of attacks.
-* **Deliverable:** A script that passes the basic test (turns the Red semaphore to Green).
+    2.  **Detection:** Identify requests containing suspicious keywords (e.g., `UNION`, `SELECT`, `' OR '1'='1`).
+    3.  **Output:** The function `analyze_logs()` must return a dictionary with:
+        * `attacker_ip`: The IP address responsible for the attacks.
+        * `attack_type`: A string classifying the attack (e.g., "sql_injection").
+* **Deliverable:** A script that passes the automated tests (turns the Red semaphore to Green).
 
 #### 🥈 Level 2: Pro / Senior
-* **Focus:** Structured Reporting & Metadata Extraction.
+* **Focus:** RegEx & Context.
 * **Requirement:** Everything in Level 3 + **Detailed Forensics**.
 * **Extra Tasks:**
-    1.  **User Extraction:** Extract the list of unique **Usernames** the attacker tried to guess.
-    2.  **Timeline:** Determine the **Start Time** and **End Time** of the attack sequence.
-    3.  **Report:** Instead of just printing, generate a `forensic_report.json` file containing the IP, attack type, timestamps, and target users.
-* **Deliverable:** A comprehensive forensic script that provides context, not just an IP.
+    1.  **RegEx:** Use Python's `re` module to strictly extract the IP addresses (validate the format `xxx.xxx.xxx.xxx`).
+    2.  **Scope:** Calculate how many **unique** paths/files the attacker tried to exploit (e.g., `/login.php`, `/search.php`).
+* **Deliverable:** The script works, but the internal logic uses robust Regular Expressions instead of simple string splitting.
 
 #### 🥇 Level 1: Elite / Architect
-* **Focus:** Tooling, CLI & Advanced Patterns.
-* **Requirement:** Everything above + **CLI Support & Multi-Vector Detection**.
+* **Focus:** Tooling & Reporting.
+* **Requirement:** Everything above + **CLI Support**.
 * **Extra Tasks:**
-    1.  **CLI Transformation:** Use `argparse`. The script should be callable via command line: `python incident_response.py -f data/server_logs.txt --threshold 50`.
-    2.  **Advanced Pattern:** Detect a second attack vector in the logs: **SQL Injection** attempts (look for common SQLi patterns in HTTP requests).
-    3.  **Efficiency:** Process the file using Generators (`yield`) to handle potential multi-gigabyte logs without loading everything into RAM.
+    1.  **CLI Transformation:** Use `argparse`. The script should be callable via command line: `python incident_response.py -f data/server_logs.txt`.
+    2.  **Reporting:** If run as `__main__`, generate a `forensic_report.json` file on disk with the findings.
 * **Deliverable:** A production-grade security tool suitable for CI/CD pipelines.
 
 ---
 
 ### 🛠️ Tech Stack & Constraints
-* **Language:** Python 3.10+.
-* **Libraries:** **Standard Library ONLY** (`re`, `collections`, `json`, `argparse`, `sys`). No `pandas` or external deps allowed (Simulating a restricted production environment).
-* **Logic:** Do not hardcode the IP. The script must dynamically find it based on frequency.
+* **Language:** Python 3.9+.
+* **Libraries:** **Standard Library ONLY** (`re`, `collections`, `json`, `argparse`, `os`). No `pandas` allowed (Simulating a restricted server environment).
+* **Logic:** Do not hardcode the IP. The script must dynamically find it based on the log patterns.
 
 ---
 
 ### 🚀 Execution Instructions
 
 1.  **Fork** this repository.
-2.  Analyze `data/server_logs.txt` manually to understand the format.
+2.  Analyze `data/server_logs.txt` manually to understand the HTTP log format.
 3.  Implement your logic in `incident_response.py`.
-4.  Run tests: `pytest`.
-5.  Submit via **Pull Request** stating your target Level.
+4.  Run tests locally:
+    ```bash
+    pip install pytest
+    PYTHONPATH=. pytest tests/
+    ```
+5.  Submit via **Pull Request**.
 
 > **Note on Build Status:** You will see a ❌ (**Red Cross**) initially. This is expected (TDD). Your goal is to write the code that turns it ✅ (**Green**).
 
@@ -65,10 +69,9 @@ Your seniority is defined by the depth of your analysis and the flexibility of y
 
 | Criteria | Weight | Audit Focus |
 | :--- | :--- | :--- |
-| **Accuracy** | 40% | Does it find the correct IP? Does it count correctly? |
-| **Regex Mastery** | 30% | Are the regex patterns efficient and precise? |
-| **Code Structure** | 20% | Modular functions vs Spaghetti script. |
-| **Tooling** | 10% | CLI implementation and Report generation (Level 1/2). |
+| **Accuracy** | 50% | Does it find the correct IP (192.168.1.66) and Attack Type? |
+| **Code Structure** | 30% | Modular functions vs Spaghetti script. |
+| **Pattern Matching** | 20% | Correct identification of SQL Injection patterns. |
 
 ---
 
