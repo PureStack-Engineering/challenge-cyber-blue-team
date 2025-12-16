@@ -77,10 +77,12 @@ To ensure our **Automated Auditor** works, keep the core structure:
 
 ```text
 /
-├── .github/workflows/   # PureStack Audit System (DO NOT TOUCH)
+├── .github/
+│   └── workflows/
+│       └── audit.yml          # Automated Assessment Pipeline
 ├── data/
-│   └── server_logs.txt  # <--- EVIDENCE FILE (Do not move)
+│   └── server_logs.txt        # Forensic Evidence (Log file)
 ├── tests/
-│   └── test_ir.py       # <--- VALIDATION TESTS
-├── incident_response.py # <--- YOUR SOLUTION GOES HERE
-└── README.md
+│   └── test_ir.py             # Validation Tests (Run via pytest)
+├── incident_response.py       # <--- CANDIDATE SOLUTION GOES HERE
+└── README.md                  # Challenge Instructions
