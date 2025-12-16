@@ -1,9 +1,6 @@
-2025-10-25 08:00:01 server sshd[123]: Accepted password for user admin from 10.0.0.5 port 22 ssh2
-2025-10-25 08:05:23 server httpd[456]: 10.0.0.5 - - "GET /index.html HTTP/1.1" 200 1024
-2025-10-25 08:10:00 server sshd[789]: Failed password for invalid user root from 192.168.1.66 port 4444 ssh2
-2025-10-25 08:10:02 server sshd[790]: Failed password for invalid user root from 192.168.1.66 port 4446 ssh2
-2025-10-25 08:10:04 server sshd[791]: Failed password for invalid user admin from 192.168.1.66 port 4448 ssh2
-2025-10-25 08:10:05 server sshd[792]: Failed password for invalid user deploy from 192.168.1.66 port 4450 ssh2
-2025-10-25 08:10:06 server sshd[793]: Failed password for invalid user support from 192.168.1.66 port 4452 ssh2
-2025-10-25 08:12:00 server httpd[500]: 192.168.1.66 - - "GET /admin/login.php HTTP/1.1" 404 512
-2025-10-25 09:00:00 server sshd[800]: Accepted password for user deploy from 10.0.0.8 port 22 ssh2
+2024-06-15 14:00:01 INFO 10.0.0.5 GET /index.html 200
+2024-06-15 14:01:23 INFO 192.168.1.12 GET /about 200
+2024-06-15 14:02:11 WARN 192.168.1.66 GET /login.php?user=admin' OR '1'='1 200
+2024-06-15 14:02:15 WARN 192.168.1.66 GET /search.php?q=UNION SELECT password FROM users 200
+2024-06-15 14:03:00 INFO 10.0.0.8 GET /contact 200
+2024-06-15 14:04:45 ERROR 192.168.1.66 POST /admin/upload.php 500
