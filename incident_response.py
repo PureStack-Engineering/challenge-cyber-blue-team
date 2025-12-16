@@ -1,27 +1,30 @@
 import os
 
-class LogAnalyzer:
+def analyze_logs(file_path):
     """
-    Blue Team Challenge:
-    Implementa la lógica para analizar logs y detectar IPs maliciosas.
+    Reads the log file and identifies the attacker.
+    
+    Args:
+        file_path (str): Path to the log file.
+        
+    Returns:
+        dict: A dictionary with 'attacker_ip' and 'attack_type'.
     """
     
-    def __init__(self, log_path):
-        self.log_path = log_path
-
-    def analyze(self):
-        """
-        Debe leer el log y devolver un diccionario con:
-        1. 'attacker_ip': La IP que más intentos fallidos tiene.
-        2. 'attack_type': 'brute_force' si hay más de 3 fallos seguidos en < 1 minuto.
-        """
-        # TODO: Implementar lógica de análisis forense aquí
-        return {
-            "attacker_ip": None,
-            "attack_type": "unknown"
-        }
+    # TODO: Implement log parsing logic here.
+    # 1. Read the file
+    # 2. Look for suspicious keywords (UNION, SELECT, OR '1'='1)
+    # 3. Extract the IP address associated with them.
+    
+    detected_ip = None
+    attack_type = "unknown"
+    
+    return {
+        "attacker_ip": detected_ip, 
+        "attack_type": attack_type
+    }
 
 if __name__ == "__main__":
-    # Prueba manual
-    analyzer = LogAnalyzer("data/server_logs.txt")
-    print(analyzer.analyze())
+    # For manual testing
+    result = analyze_logs("data/server_logs.txt")
+    print(f"Analysis Result: {result}")
