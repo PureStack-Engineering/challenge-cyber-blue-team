@@ -1,21 +1,61 @@
 name: PureStack Security Audit
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
   forensics-check:
     runs-on: ubuntu-latest
+    name: 🛡️ Forensics Quality Gate
+
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Set up Python
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🔍 Phase 1: Structural Integrity
+        run: |
+          echo "::group::File Validation"
+          if [ ! -f "incident_response.py" ]; then echo "❌ Missing: incident_response.py (Must be in root)"; exit 1; fi
+          if [ ! -f "data/server_logs.txt" ]; then echo "❌ Missing: data/server_logs.txt"; exit 1; fi
+          echo "✅ Project Structure is valid."
+          echo "::endgroup::"
+
+      - name: 🕵️ Phase 2: Anti-Cheat & Constraints
+        run: |
+          echo "::group::Constraint Validation"
+          
+          # 1. Ban Pandas (Simulated Restricted Env)
+          if grep -r "pandas" incident_response.py; then 
+            echo "❌ CRITICAL: 'pandas' library is FORBIDDEN. Use standard library only."
+            exit 1
+          fi
+          
+          # 2. Ban Hardcoded Answer (The IP)
+          if grep -r "192.168.1.66" incident_response.py; then 
+            echo "❌ CRITICAL: Hardcoded IP detected. You must parse the logs dynamically."
+            exit 1
+          fi
+
+          # 3. Check for Level 1 Requirements (Argparse) - Warning only
+          if grep -r "argparse" incident_response.py; then 
+             echo "🏆 Level 1 Detected: CLI Argument parsing found."
+          else
+             echo "ℹ️ Note: 'argparse' not found (Required for Level 1)."
+          fi
+
+          echo "✅ Code constraints met."
+          echo "::endgroup::"
+
+      - name: 🐍 Set up Python 3.9
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          
-      - name: Install dependencies
-        run: |
-          pip install pytest
-          
-      - name: Run Forensic Analysis Tests
-        run: PYTHONPATH=. pytest tests/
+
+      - name: 📦 Install Test Dependencies
+        run: pip install pytest
+
+      - name: 🧪 Phase 3: Forensic Validation
+        run: PYTHONPATH=. pytest tests/ -v
