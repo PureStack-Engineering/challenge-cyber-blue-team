@@ -65,6 +65,20 @@ Your seniority is defined by the depth of your analysis and the flexibility of y
 
 > **Note on Build Status:** You will see a ❌ (**Red Cross**) initially. This is expected (TDD). Your goal is to write the code that turns it ✅ (**Green**).
 
+---
+
+### 📝 Audit & Validation Rules (Strict)
+
+> **⚠️ The "Standard-Lib" Policy**
+>
+> Our automated auditor (`audit.yml`) enforces strict quality rules. Your PR will be automatically rejected if:
+>
+> 1.  **Forbidden Libraries:** The use of `pandas`, `numpy`, or external pip packages is **strictly forbidden**. You must use Python's Standard Library (`re`, `json`, `collections`).
+> 2.  **Hardcoding:** Do not hardcode the IP address `192.168.1.66` or the attack type. The script must discover them dynamically.
+> 3.  **Structure Integrity:** The file `incident_response.py` must exist in the root directory.
+
+---
+
 ### 🧪 Evaluation Criteria (PureStack Audit)
 
 | Criteria | Weight | Audit Focus |
@@ -82,10 +96,10 @@ To ensure our **Automated Auditor** works, keep the core structure:
 /
 ├── .github/
 │   └── workflows/
-│       └── audit.yml          # Automated Assessment Pipeline
+│       └── audit.yml          # PureStack Audit System
 ├── data/
 │   └── server_logs.txt        # Forensic Evidence (Log file)
 ├── tests/
-│   └── test_ir.py             # Validation Tests (Run via pytest)
+│   └── test_ir.py             # Validation Tests
 ├── incident_response.py       # <--- CANDIDATE SOLUTION GOES HERE
 └── README.md                  # Challenge Instructions
