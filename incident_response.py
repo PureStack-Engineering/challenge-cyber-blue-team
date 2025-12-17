@@ -1,4 +1,5 @@
 import os
+import json
 
 def analyze_logs(log_file_path):
     """
@@ -11,7 +12,7 @@ def analyze_logs(log_file_path):
         dict: A dictionary with 'attacker_ip' and 'attack_type'.
     """
     # TODO: Implement parsing logic here.
-    # Constraint: Do NOT use pandas. Use 're' or string manipulation.
+    # Constraint: Do NOT use external data libraries. Use 're' or string manipulation.
     
     return {
         "attacker_ip": None,
