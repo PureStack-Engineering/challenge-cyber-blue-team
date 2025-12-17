@@ -1,29 +1,38 @@
 import pytest
-import os
 from incident_response import analyze_logs
 
-# Definimos la ruta relativa al archivo de logs
-LOG_FILE = os.path.join("data", "server_logs.txt")
+LOG_FILE = "data/server_logs.txt"
 
-def test_evidence_exists():
-    """Valida que el archivo de logs existe."""
-    assert os.path.exists(LOG_FILE), "❌ El archivo 'data/server_logs.txt' no se encuentra."
+def test_structure_exists():
+    """Validates that the function returns a dictionary"""
+    result = analyze_logs(LOG_FILE)
+    assert isinstance(result, dict), "The function must return a dictionary"
+    assert "attacker_ip" in result
+    assert "attack_type" in result
 
-def test_identify_attacker():
-    """Valida si el candidato encontró la IP correcta."""
+def test_detect_attacker_ip():
+    """
+    Validates if the logic correctly identifies the IP 
+    generating SQL Injection patterns.
+    """
     result = analyze_logs(LOG_FILE)
     
-    expected_ip = "192.168.1.66"
-    
-    assert result['attacker_ip'] is not None, "❌ No has identificado ninguna IP (sigue siendo None)."
-    assert result['attacker_ip'] == expected_ip, f"❌ IP Incorrecta. Esperaba {expected_ip}, recibí {result['attacker_ip']}"
+    # Check if logic is implemented
+    if result["attacker_ip"] is None:
+        pytest.fail("❌ Logic not implemented: attacker_ip is None")
+        
+    assert result["attacker_ip"] == "192.168.1.66", \
+        f"❌ Incorrect IP detected. Expected '192.168.1.66', got '{result['attacker_ip']}'"
 
-def test_identify_attack_type():
-    """Valida si clasificó el ataque correctamente (Bonus)."""
+def test_classify_attack():
+    """
+    Validates if the attack is correctly classified 
+    as 'sql_injection' based on keywords (UNION, SELECT, OR '1'='1)
+    """
     result = analyze_logs(LOG_FILE)
     
-    # Aceptamos variantes comunes
-    valid_types = ["sql injection", "sqli", "injection"]
-    detected = result['attack_type'].lower()
+    expected_types = ["sql_injection", "sqli"]
+    detected = str(result["attack_type"]).lower()
     
-    assert any(t in detected for t in valid_types), f"❌ Tipo de ataque no reconocido. Esperaba 'SQL Injection', recibí '{detected}'"
+    assert any(x in detected for x in expected_types), \
+        f"❌ Incorrect Classification. Expected 'sql_injection', got '{result['attack_type']}'"
